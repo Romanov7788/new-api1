@@ -1,41 +1,62 @@
-const UserModel = require("../models/user-model");
+const userModel = require("../models/user-model");
 
-class FriendShipService {
+class acceptFriendService {
   async acceptFriends(friendsId, myId) {
-    UserModel.updateOne(
+    console.log(friendsId, myId);
+    userModel.updateOne(
       {
         _id: friendsId,
       },
       {
         $push: {
-          incomingRequests: {
-            _id: myId,
-            status: "Pending",
+          rejectedRequests: {
+            _id: friendsId,
+            type: "friend_requst_accepted",
+            content: "accepted your friend request",
           },
         },
-      },
-      function () {
-        UserModel.updateOne(
+      }
+    );
+    userModel.updateOne(
+      {
+        $and: [
           {
-            _id: myId,
+            _id: friendsId,
           },
           {
-            $push: {
-              outcomingRequests: {
-                _id: friendsId,
-                status: "Pending",
+            "friend.friendsId": myId,
+          },
+        ],
+      },
+      {
+        $set: {
+          "friends.$.status": "Accepted",
+        },
+      },
+      function (error, data) {
+        userModel.updateOne(
+          {
+            $and: [
+              {
+                _id: myId,
               },
+              {
+                "friends.friendsId": myId,
+              },
+            ],
+          },
+          {
+            $set: {
+              "friends.$.status": "Accepted",
             },
+          },
+          function () {
+            
           }
         );
-      },
-      function () {
-        res.json({
-          status: "success",
-        });
       }
     );
   }
 }
 
-module.exports = new FriendShipService();
+module.exports = new acceptFriendService();

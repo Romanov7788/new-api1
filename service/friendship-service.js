@@ -1,15 +1,3 @@
-// const addFriendModel = require("../models/friend-model");
-
-// class FriendShipService {
-//   async addFriends(myId, friendsId) {
-//     const candidate = await addFriendModel.create({ myId, friendsId });
-//     return candidate;
-//   }
-// }
-
-// module.exports = new FriendShipService();
-
-const { resolveHostname } = require("nodemailer/lib/shared");
 const UserModel = require("../models/user-model");
 
 class FriendShipService {
@@ -39,7 +27,7 @@ class FriendShipService {
               },
             },
           },
-          function () {}
+          function () {} // не понимаю, без этой пустой функции не записывает в outcomingRequests результат
         );
       }
     );
