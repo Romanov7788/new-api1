@@ -2,7 +2,6 @@ const userModel = require("../models/user-model");
 
 class acceptFriendService {
   async acceptFriends(friendsId, myId) {
-    console.log(friendsId, myId);
     userModel.updateOne(
       {
         _id: friendsId,

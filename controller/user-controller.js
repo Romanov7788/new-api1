@@ -4,6 +4,7 @@ const ApiError = require("../exceptions/api-error");
 const UserModel = require("../models/user-model");
 const FriendShipService = require("../service/friendship-service");
 const acceptFriendService = require("../service/acceptFriends");
+const rejectedFriendService = require("../service/rejectedfriends-service");
 
 class UserController {
   async registration(req, res, next) {
@@ -59,12 +60,8 @@ class UserController {
 
   async addFriends(req, res, next) {
     try {
-      const { friendsId, myId, name } = req.body;
-      const userData = await FriendShipService.addFriends(
-        friendsId,
-        myId,
-        name
-      );
+      const { friendsId, myId } = req.body;
+      const userData = await FriendShipService.addFriends(friendsId, myId);
       return res.json({
         status: "success",
         message: "Friend request has been sent.",
@@ -74,13 +71,16 @@ class UserController {
     }
   }
 
-  async acceptFriends(req, res, next) {
+  async rejectedFriends(req, res, next) {
     try {
       const { friendsId, myId } = req.body;
-      const userData = await acceptFriendService.acceptFriends(friendsId, myId);
+      const userData = await rejectedFriendService.rejectedFriends(
+        friendsId,
+        myId
+      );
       return res.json({
         status: "success",
-        message: "Friend request has been accepted.",
+        message: "Friend rejected.",
       });
     } catch (e) {}
   }

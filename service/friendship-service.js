@@ -1,7 +1,8 @@
+const userController = require("../controller/user-controller");
 const UserModel = require("../models/user-model");
 
 class FriendShipService {
-  async addFriends(friendsId, myId) {
+  async addFriends(friendsId, myId, name) {
     UserModel.updateOne(
       {
         _id: friendsId,
@@ -10,6 +11,7 @@ class FriendShipService {
         $push: {
           incomingRequests: {
             _id: myId,
+            name: "users.name",
             status: "Pending",
           },
         },
@@ -23,6 +25,7 @@ class FriendShipService {
             $push: {
               outcomingRequests: {
                 _id: friendsId,
+                name: "users.name",
                 status: "Pending",
               },
             },
