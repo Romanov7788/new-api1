@@ -1,4 +1,3 @@
-const userController = require("../controller/user-controller");
 const UserModel = require("../models/user-model");
 
 class FriendShipService {
