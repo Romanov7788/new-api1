@@ -3,7 +3,7 @@ const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 const UserModel = require("../models/user-model");
 const FriendShipService = require("../service/friendship-service");
-const acceptFriendService = require("../service/acceptFriends");
+const acceptFriendService = require("../service/acceptFriends-service");
 const rejectedFriendService = require("../service/rejectedfriends-service");
 
 class UserController {
@@ -81,6 +81,20 @@ class UserController {
       return res.json({
         status: "success",
         message: "Friend rejected.",
+      });
+    } catch (e) {}
+  }
+
+  async acceptFriends(req, res, next) {
+    try {
+      const { friendsId, myId } = req.body;
+      const userData = await acceptFriendService.acceptFriends(
+        friendsId,
+        myId
+      );
+      return res.json({
+        status: "success",
+        message: "Friend accepted.",
       });
     } catch (e) {}
   }

@@ -1,8 +1,7 @@
-const userController = require("../controller/user-controller");
 const UserModel = require("../models/user-model");
 
-class rejectedFriendService {
-  async rejectedFriends(friendsId, myId) {
+class acceptFriendService {
+  async acceptFriends(friendsId, myId) {
     UserModel.updateMany(
       {
         _id: friendsId,
@@ -11,7 +10,7 @@ class rejectedFriendService {
         $unset: {
           incomingRequests: {
             _id: myId,
-            status: "Rejected",
+            status: "Pending",
           },
         },
       },
@@ -24,7 +23,7 @@ class rejectedFriendService {
             $unset: {
               outcomingRequests: {
                 _id: friendsId,
-                status: "Rejected",
+                status: "Pending",
               },
             },
           },
@@ -35,9 +34,8 @@ class rejectedFriendService {
               },
               {
                 $push: {
-                  rejectedRequests: {
+                  friends: {
                     _id: myId,
-                    status: "Rejected",
                   },
                 },
               },
@@ -48,9 +46,8 @@ class rejectedFriendService {
                   },
                   {
                     $push: {
-                      rejectedRequests: {
+                      friends: {
                         _id: friendsId,
-                        status: "Rejected",
                       },
                     },
                   },
@@ -65,4 +62,4 @@ class rejectedFriendService {
   }
 }
 
-module.exports = new rejectedFriendService();
+module.exports = new acceptFriendService();

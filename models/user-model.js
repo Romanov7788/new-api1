@@ -25,13 +25,12 @@ const UserSchema = new Schema({
       status: String,
     },
   ],
-  // friends: [
-  //   {
-  //     _id: Schema.ObjectId,
-  //     name: String,
-  //     status: String,
-  //   },
-  // ],
+  friends: [
+    {
+      _id: Schema.ObjectId,
+      status: String,
+    },
+  ],
 });
 
 module.exports = model("User", UserSchema);

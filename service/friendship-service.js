@@ -11,7 +11,6 @@ class FriendShipService {
         $push: {
           incomingRequests: {
             _id: myId,
-            name: "users.name",
             status: "Pending",
           },
         },
@@ -25,7 +24,6 @@ class FriendShipService {
             $push: {
               outcomingRequests: {
                 _id: friendsId,
-                name: "users.name",
                 status: "Pending",
               },
             },
