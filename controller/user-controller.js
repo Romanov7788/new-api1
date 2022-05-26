@@ -2,7 +2,7 @@ const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 const UserModel = require("../models/user-model");
-const FriendShipService = require('../service/friend-service');
+const FriendShipService = require("../service/friend-service");
 
 class UserController {
   async registration(req, res, next) {
@@ -59,42 +59,49 @@ class UserController {
   async addFriends(req, res, next) {
     try {
       const { friendsId, myId } = req.body;
-      const userData = await FriendShipService.addFriends(friendsId, myId);
+      await FriendShipService.addFriends(friendsId, myId);
       return res.json({
         status: "success",
         message: "Friend request has been sent.",
       });
     } catch (e) {
-      next(e);
+      res.json({
+        status: "error",
+        message: `Sorry we have some problem with ${e}`,
+      });
     }
   }
 
-  async rejectedFriends(req, res, next) {
+  rejectedFriends(req, res, next) {
     try {
       const { friendsId, myId } = req.body;
-      const userData = await FriendShipService.rejectedFriends(
-        friendsId,
-        myId
-      );
+      FriendShipService.rejectedFriends(friendsId, myId);
       return res.json({
         status: "success",
         message: "Friend rejected.",
       });
-    } catch (e) {}
+    } catch (e) {
+      res.json({
+        status: "error",
+        message: `Sorry we have some problem with ${e}`,
+      });
+    }
   }
 
   async acceptFriends(req, res, next) {
     try {
       const { friendsId, myId } = req.body;
-      const userData = await FriendShipService.acceptFriends(
-        friendsId,
-        myId
-      );
+      await FriendShipService.acceptFriends(friendsId, myId);
       return res.json({
         status: "success",
         message: "Friend accepted.",
       });
-    } catch (e) {}
+    } catch (e) {
+       res.json({
+        status: "error",
+        message: `Sorry we have some problem with ${e}`,
+      });
+    }
   }
 }
 
