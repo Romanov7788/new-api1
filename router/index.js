@@ -13,8 +13,9 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUserOne);
-// router.get('/users/addfriends', userController.addFriends);
 router.post('/users/addfriends', userController.addFriends);
+router.post('/users/acceptFriends', userController.acceptFriends);
+router.post('/users/rejectedFriends', userController.rejectedFriends);
 
 
 

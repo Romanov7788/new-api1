@@ -39,7 +39,7 @@ class UserService {
   }
 
   async getAllUser() {
-    const users = await UserModel.find();
+    const users = await UserModel.find({}, { password: 0 });
     return users;
   }
 
