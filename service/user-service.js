@@ -4,15 +4,15 @@ const ApiError = require("../exceptions/api-error");
 
 class UserService {
   async registration(email, password, name) {
-    const candidate = await UserModel.findOne({ email });
+    const candidate = await UserModel.findOne({ email });  //проверяем нет ли в базе данных таких эмейлов
     if (candidate) {
       throw ApiError.BadRequest(
         `Пользователь с почтовым адресом ${email} уже существует`
       );
     }
-    const hashPassword = await bcrypt.hash(password, 3);
+    const hashPassword = await bcrypt.hash(password, 3); // шифрование пароля
 
-    const user = await UserModel.create({
+    const user = await UserModel.create({  //сохраняеться захешированый пароль
       email,
       password: hashPassword,
       name,

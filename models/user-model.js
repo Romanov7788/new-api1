@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, ObjectId } = require("mongoose");
 const mongoose = require("mongoose");
 
 const UserSchema = new Schema({
@@ -7,27 +7,27 @@ const UserSchema = new Schema({
   password: String,
   outcomingRequests: [
     {
-      _id: Schema.ObjectId,
-      name: String,
-      status: String,
+      _id: mongoose.Schema.Types.ObjectId,
+      status: { type: String,
+      enum: []
+      }
     },
   ],
   incomingRequests: [
     {
-      _id: Schema.ObjectId,
-      name: String,
+      _id: mongoose.Schema.Types.ObjectId,
       status: String,
     },
   ],
   rejectedRequests: [
     {
-      _id: Schema.ObjectId,
+      _id: mongoose.Schema.Types.ObjectId,
       status: String,
     },
   ],
   friends: [
     {
-      _id: Schema.ObjectId,
+      _id: mongoose.Schema.Types.ObjectId,
       status: String,
     },
   ],

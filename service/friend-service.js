@@ -19,7 +19,7 @@ class FriendShipService {
         $push: {
           outcomingRequests: {
             _id: friendsId,
-            status: "Pending",
+            status: "Ptreyending",
           },
         },
       }

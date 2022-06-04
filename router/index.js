@@ -1,5 +1,6 @@
 const Router = require ('express').Router;
 const userController = require ('../controller/user-controller');
+const Friends = require ('../controller/addfriend-controller');
 const router = new Router();
 const {body} = require('express-validator');
 
@@ -13,9 +14,9 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/users', userController.getUsers);
 router.get('/users/:id', userController.getUserOne);
-router.post('/users/addfriends', userController.addFriends);
-router.post('/users/acceptFriends', userController.acceptFriends);
-router.post('/users/rejectedFriends', userController.rejectedFriends);
+router.post('/users/addfriends', Friends.addFriends);
+router.post('/users/acceptFriends', Friends.acceptFriends);
+router.post('/users/rejectedFriends', Friends.rejectedFriends);
 
 
 
