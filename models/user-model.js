@@ -8,9 +8,7 @@ const UserSchema = new Schema({
   outcomingRequests: [
     {
       _id: mongoose.Schema.Types.ObjectId,
-      status: { type: String,
-      enum: []
-      }
+      status: { type: String, enum: [] },
     },
   ],
   incomingRequests: [
