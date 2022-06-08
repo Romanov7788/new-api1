@@ -1,4 +1,5 @@
 const UserModel = require("../models/user-model");
+const {STATUS_TYPE_REJECTED, STATUS_TYPE_PENDING, STATUS_TYPE_ACCEPTED} = require("../models/enum/status");
 
 class FriendShipService {
   async addFriends(friendsId, myId) {
@@ -8,7 +9,7 @@ class FriendShipService {
         $push: {
           incomingRequests: {
             _id: myId,
-            status: "Pending",
+            status: STATUS_TYPE_PENDING,
           },
         },
       }
@@ -19,7 +20,7 @@ class FriendShipService {
         $push: {
           outcomingRequests: {
             _id: friendsId,
-            status: "Ptreyending",
+            status: STATUS_TYPE_PENDING,
           },
         },
       }
@@ -33,7 +34,7 @@ class FriendShipService {
         $unset: {
           incomingRequests: {
             _id: myId,
-            status: "Rejected",
+            status: STATUS_TYPE_REJECTED,
           },
         },
       }
@@ -46,7 +47,7 @@ class FriendShipService {
         $unset: {
           outcomingRequests: {
             _id: friendsId,
-            status: "Rejected",
+            status: STATUS_TYPE_REJECTED,
           },
         },
       }
@@ -59,7 +60,7 @@ class FriendShipService {
         $push: {
           rejectedRequests: {
             _id: myId,
-            status: "Rejected",
+            status: STATUS_TYPE_REJECTED,
           },
         },
       }
@@ -72,7 +73,7 @@ class FriendShipService {
         $push: {
           rejectedRequests: {
             _id: friendsId,
-            status: "Rejected",
+            status: STATUS_TYPE_REJECTED,
           },
         },
       }
@@ -86,7 +87,7 @@ class FriendShipService {
         $unset: {
           incomingRequests: {
             _id: myId,
-            status: "Pending",
+            status: STATUS_TYPE_ACCEPTED,
           },
         },
       }
@@ -97,7 +98,7 @@ class FriendShipService {
         $unset: {
           outcomingRequests: {
             _id: friendsId,
-            status: "Pending",
+            status: STATUS_TYPE_ACCEPTED,
           },
         },
       }
