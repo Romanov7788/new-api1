@@ -1,5 +1,6 @@
-const { Schema, model } = require("mongoose");
+const { Schema, model, ObjectId } = require("mongoose");
 const mongoose = require("mongoose");
+const {enumStatusType} = require("./enum/status");
 
 const UserSchema = new Schema({
   name: String,
@@ -7,28 +8,26 @@ const UserSchema = new Schema({
   password: String,
   outcomingRequests: [
     {
-      _id: Schema.ObjectId,
-      name: String,
-      status: String,
+      _id: mongoose.Schema.Types.ObjectId,
+      status: enumStatusType,
     },
   ],
   incomingRequests: [
     {
-      _id: Schema.ObjectId,
-      name: String,
-      status: String,
+      _id: mongoose.Schema.Types.ObjectId,
+      status: enumStatusType,
     },
   ],
   rejectedRequests: [
     {
-      _id: Schema.ObjectId,
-      status: String,
+      _id: mongoose.Schema.Types.ObjectId,
+      status: enumStatusType,
     },
   ],
   friends: [
     {
-      _id: Schema.ObjectId,
-      status: String,
+      _id: mongoose.Schema.Types.ObjectId,
+      status: enumStatusType,
     },
   ],
 });
