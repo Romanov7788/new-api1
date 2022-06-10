@@ -8,7 +8,7 @@ class FriendShipService {
       {
         $push: {
           incomingRequests: {
-            _id: myId,
+            _id: myId, 
             status: STATUS_TYPE_PENDING,
           },
         },

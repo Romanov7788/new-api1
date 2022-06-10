@@ -2,8 +2,9 @@ const FriendShipService = require("../service/friend-service");
 
 class Friends {
   async addFriends(req, res) {
+    const myId = req.user.Id;
     try {
-      const { friendsId, myId } = req.body;
+      const { friendsId } = req.body;
       await FriendShipService.addFriends(friendsId, myId);
       return res.json({
         status: "success",
@@ -18,8 +19,9 @@ class Friends {
   }
 
   rejectedFriends(req, res) {
+    const myId = req.user.Id;
     try {
-      const { friendsId, myId } = req.body;
+      const { friendsId } = req.body;
       FriendShipService.rejectedFriends(friendsId, myId);
       return res.json({
         status: "success",
@@ -34,8 +36,9 @@ class Friends {
   }
 
   async acceptFriends(req, res) {
+    const myId = req.user.Id;
     try {
-      const { friendsId, myId } = req.body;
+      const { friendsId } = req.body;
       await FriendShipService.acceptFriends(friendsId, myId);
       return res.json({
         status: "success",

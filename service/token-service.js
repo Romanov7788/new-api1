@@ -12,47 +12,47 @@ class tokenService {
     });
     return {
       accessToken,
-      refreshToken
+      refreshToken,
+    };
   }
-  }
-  
+
   validateAccessToken(token) {
-    try{
-        const userData = jwt.verify(token, config.JWT_ACCESS_KEY);
-        return userData;
+    try {
+      const userData = jwt.verify(token, config.JWT_ACCESS_KEY);
+      return userData;
     } catch (e) {
-        return null;
+      return null;
     }
-}
+  }
 
-validateRefreshToken(token) {
-    try{
-        const userData = jwt.verify(token, config.JWT_REFRESH_KEY);
-        return userData;
+  validateRefreshToken(token) {
+    try {
+      const userData = jwt.verify(token, config.JWT_REFRESH_KEY);
+      return userData;
     } catch (e) {
-        return null; 
+      return null;
     }
-}
+  }
 
-async saveToken(userId, refreshToken) {
-    const tokenData = await tokenModel.findOne({user: userId})
+  async saveToken(userId, refreshToken) {
+    const tokenData = await tokenModel.findOne({ user: userId });
     if (tokenData) {
-        tokenData.refreshToken = refreshToken;
-        return tokenData.save();
+      tokenData.refreshToken = refreshToken;
+      return tokenData.save();
     }
-    const token = await tokenModel.create({user: userId, refreshToken})
+    const token = await tokenModel.create({ user: userId, refreshToken });
     return token;
-}
+  }
 
-async removeToken(refreshToken) {
-    const tokenData = await tokenModel.deleteOne({refreshToken})
+  async removeToken(refreshToken) {
+    const tokenData = await tokenModel.deleteOne({ refreshToken });
     return tokenData;
-}
+  }
 
-async findToken(refreshToken) {
-    const tokenData = await tokenModel.findOne({refreshToken})
+  async findToken(refreshToken) {
+    const tokenData = await tokenModel.findOne({ refreshToken });
     return tokenData;
-}  
+  }
 }
 
 module.exports = new tokenService();
