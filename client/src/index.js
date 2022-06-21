@@ -5,6 +5,7 @@ import App from "./App";
 import {store} from "./reducers";
 import {Provider} from "react-redux";
 import reportWebVitals from "./reportWebVitals";
+import 'materialize-css/dist/css/materialize.min.css';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
