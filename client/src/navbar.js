@@ -8,7 +8,7 @@ export default function Navbar() {
 
     return (<nav
         className="nav">
-        <a href="/" className="stile-title">Romanov API</a>
+        <a href="/" className="stile-title">Romanov</a>
         <ul>
             <li>
                 {!isAuth && <Link to="/api/registration">Sing up</Link>}

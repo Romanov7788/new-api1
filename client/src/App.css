@@ -5,7 +5,7 @@
   padding-bottom: 30px;
   width: max-content;
   padding: 0px 20px 20px 20px;
-  margin-left: 25%;
+  margin: 50px auto 12px auto;
 }
 
 .home.title {
@@ -17,18 +17,27 @@
 .home form {
   margin-top: 30px;
 }
+
 .home form input {
   padding: 10px;
   border: none;
   border-bottom: 2px dashed rgb(2, 57, 88);
   margin-right: 10px;
+  
 }
 
 .home form input:focus {
   outline: none;
-  border-bottom: 3px dashed rgb(2, 57, 88);
+  border-bottom: 3px dashed rgb(218, 35, 35);
 }
 
+.valid{
+  color: green;
+}
+
+.home invalid {
+  color: red;
+}
 * {
   box-sizing: border-box;
 }
