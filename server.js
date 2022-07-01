@@ -10,7 +10,7 @@ const config = require("./config");
 
 const app = express();
 
-const PORT = config.PORT || 3000;
+const PORT = config.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());

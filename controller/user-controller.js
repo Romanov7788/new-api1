@@ -9,7 +9,7 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("Ошибка при валидации", errors.array())
+          ApiError.BadRequest("login or password is incorrect! Try again", errors.array())
         );
       }
       const { email, password } = req.body;

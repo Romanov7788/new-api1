@@ -1,0 +1,82 @@
+.home {
+  margin-top: 50px;
+  border: 3px dashed grey;
+  border-radius: 20px;
+  padding-bottom: 30px;
+  width: max-content;
+  padding: 0px 20px 20px 20px;
+  margin: 50px auto 12px auto;
+}
+
+.home.title {
+  font-size: 4rem;
+
+  font-family: "Times New Roman", Times, serif;
+}
+
+.home form {
+  margin-top: 30px;
+}
+
+.home form input {
+  padding: 10px;
+  border: none;
+  border-bottom: 2px dashed rgb(2, 57, 88);
+  margin-right: 10px;
+  
+}
+
+.home form input:focus {
+  outline: none;
+  border-bottom: 3px dashed rgb(218, 35, 35);
+}
+
+.valid{
+  color: green;
+}
+
+.home invalid {
+  color: red;
+}
+* {
+  box-sizing: border-box;
+}
+
+body{
+  margin: 0;
+}
+
+.nav {
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 0 1rem;
+}
+
+.stile-title {
+  font-size: 2rem;
+}
+
+.nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+.nav a {
+  color: inherit;
+  text-decoration: none;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: .25rem;
+}
+
+
+.nav li:hover {
+  background-color: #777;
+}
