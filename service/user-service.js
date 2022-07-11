@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const ApiError = require("../exceptions/api-error");
 const tokenService = require("./token-service");
 const UserDto = require("../user-dto");
+const {STATUS_TYPE_USER, STATUS_TYPE_ADMIN} = require("../models/enum/roles.list");
+
 
 class UserService {
   async registration(email, password) {
@@ -14,7 +16,7 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(password, 3);
 
-    const user = await UserModel.create({ email, password: hashPassword });
+    const user = await UserModel.create({ roles: STATUS_TYPE_USER, email, password: hashPassword });
 
     const userDto = new UserDto(user);
     const tokens = tokenService.generateTokens({ ...userDto });
@@ -63,6 +65,34 @@ class UserService {
   async getAllUser() {
     const users = await UserModel.find({}, { password: 0 });
     return users;
+  }
+
+  // async getAllUser() {
+  //   const users = tokenService.validateRefreshToken(refreshToken);
+  //   if(users) {
+  //     return{
+  //       statusCode: 200,
+  //       body: users.json({id: users.userId}),
+  //     };
+  //   } else {
+  //     return {
+  //       statusCode: 401,
+  //       body: JSON.stringify({ msg: 'Invalid Authorization token' })
+  //     };
+  //   }
+  // }
+
+  async getCurrentUser() {
+    const tokenFromDb = await tokenService.findToken(refreshToken);
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    if (userData || toke){
+      return{
+        statusCode:200,
+        body:JSON.stringify({ _id: userData.id })
+      };
+    }
+
+    return user;
   }
 }
 

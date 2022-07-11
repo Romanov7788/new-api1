@@ -16,6 +16,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 router.get('/users', authMiddleware, userController.getUsers);
 router.get('/users/:id', authMiddleware, userController.getUserOne);
+router.get('/user', authMiddleware, userController.getCurrentUser);
 router.post('/users/addfriends', authMiddleware, Friends.addFriends);
 router.post('/users/acceptFriends', authMiddleware, Friends.acceptFriends);
 router.post('/users/rejectedFriends', authMiddleware, Friends.rejectedFriends);
