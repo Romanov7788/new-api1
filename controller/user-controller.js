@@ -12,7 +12,7 @@ class UserController {
           ApiError.BadRequest("login or password is incorrect! Try again", errors.array())
         );
       }
-      const { email, password } = req.body;
+      const {email, password } = req.body;
       const userData = await userService.registration(email, password);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -77,6 +77,15 @@ class UserController {
       const { id } = req.params;
       const users = await UserModel.findById(id);
       return res.json(users);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getCurrentUser(req, res, next) {
+    try {
+      const user = await userService.getCurrentUser();
+      return res.json(user);
     } catch (e) {
       next(e);
     }

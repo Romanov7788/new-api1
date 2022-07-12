@@ -4,7 +4,7 @@ import 'materialize-css'
 
 
 
-const Error = () => {
+const Home = () => {
 
 
   return ( 
@@ -18,4 +18,4 @@ const Error = () => {
 )
 }
 
-export default Error;
+export default Home;
