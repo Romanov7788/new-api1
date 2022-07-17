@@ -2,6 +2,7 @@ const userService = require("../service/user-service");
 const { validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 const UserModel = require("../models/user-model");
+const Role = require("../models/Role");
 
 class UserController {
   async registration(req, res, next) {
@@ -9,10 +10,13 @@ class UserController {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
-          ApiError.BadRequest("login or password is incorrect! Try again", errors.array())
+          ApiError.BadRequest(
+            "login or password is incorrect! Try again",
+            errors.array()
+          )
         );
       }
-      const {email, password } = req.body;
+      const { email, password } = req.body;
       const userData = await userService.registration(email, password);
       res.cookie("refreshToken", userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -65,8 +69,8 @@ class UserController {
 
   async getUsers(req, res, next) {
     try {
-      const users = await userService.getAllUser();
-      return res.json(users);
+      const users = await UserModel.find();
+      res.json(users);
     } catch (e) {
       next(e);
     }

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 import Input from "../input";
 import axios from "axios";
@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const {signin} = useAuth();
-  const from = location.state?.from?.pathname || "/api/users";
+  const from = location.state?.from?.pathname || "/api/user";
  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,8 +27,8 @@ const Login = () => {
         password,
       });
       localStorage.setItem('token', response.data.accessToken)
-      setUser(response.data.user);
-      console.log('response', response.data.accessToken);
+      setUser(response.data.accessToken);
+      console.log('login', response.data.accessToken);
       return user;
     } catch (e) {
       alert(e.response.data.message);

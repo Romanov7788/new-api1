@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
     
     const accessToken = authorizationHeader.split(' ')[1];
     if (!accessToken) {
-      return next(ApiError.UnauthorizedErro1r());
+      return next(ApiError.UnauthorizedError());
     }
   
     const userData = tokenService.validateAccessToken(accessToken);

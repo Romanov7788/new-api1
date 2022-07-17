@@ -15,18 +15,11 @@ const AboutUser = () => {
     },
   };
 
-// useEffect(() => {
-//     axios.get(`${url}/api/users/${id}`)
-//         .then(res => res.json())
-//         .then(data => setUser(data))
-//     }, [id]);
-//     // console.log("sdfs", user);
 
     useEffect(() => {
         axios.get(`${url}/api/users/${id}`, config).then((res) => {
           const userData = res || null;
           setUsers(userData.data);
-          console.log("sdfs", userData);
         });
       }, []);
 
@@ -39,6 +32,6 @@ const AboutUser = () => {
     User role : {users.roles}
     <br/>
     </h3>
-  ) : <p>No users</p>
+  ) : <p>Not access, access only Admin</p>
 };
 export default AboutUser;

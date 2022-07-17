@@ -2,7 +2,7 @@ const UserModel = require("../models/user-model");
 const bcrypt = require("bcrypt");
 const ApiError = require("../exceptions/api-error");
 const tokenService = require("./token-service");
-const {STATUS_TYPE_USER, STATUS_TYPE_ADMIN} = require("../models/enum/roles.list");
+const Role = require("../models/Role");
 
 class UserService {
   async registration(email, password) {
@@ -14,8 +14,8 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(password, 3);
 
-    const user = await UserModel.create({ roles: STATUS_TYPE_USER, email, password: hashPassword });
-
+    const userRole = await Role.findOne({value: "User"})
+    const user = await UserModel.create({ email, password: hashPassword, roles: [userRole.value] });
     const tokens = tokenService.generateTokens({user});
     await tokenService.saveToken(user, tokens.refreshToken);
 
@@ -31,7 +31,7 @@ class UserService {
     if (!isPassEquals) {
       throw ApiError.BadRequest("неверный пароль");
     }
-    const tokens = tokenService.generateTokens({ user });
+    const tokens = tokenService.generateTokens({ user, roles: user.roles });
 
     await tokenService.saveToken(user, tokens.refreshToken);
     return { ...tokens, user };

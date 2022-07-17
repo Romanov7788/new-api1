@@ -1,11 +1,10 @@
 const { Schema, model, ObjectId } = require("mongoose");
 const mongoose = require("mongoose");
 const {enumStatusType} = require("./enum/status");
-const {enumRolesType} = require("./enum/roles.list");
 
 const UserSchema = new Schema({
   name: String,
-  roles: enumRolesType,
+  roles: [{type: String, ref: 'Role'}],
   email: String,
   password: String,
   outcomingRequests: [
