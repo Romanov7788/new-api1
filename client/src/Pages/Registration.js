@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "../App.css";
 import Input from '../input';
-import { registration } from '../components/user';
 import PWDCheck from "../password";
+import api from "../components/api/index";
 
 
 
@@ -43,6 +43,21 @@ const Registration = () => {
     })
   };
 
+const registration = async (email, password) => {
+    try {
+      const response = await api.post(
+        '/registration',
+        {
+          email,
+          password,
+        }
+      );
+      console.log("Data", response.data.message)
+    } catch (e) {
+      alert(e.response.data.message)
+    }
+  };
+
   return (
     <div className="home">
       <form>
@@ -56,7 +71,6 @@ const Registration = () => {
           <input
             id="password"
             value={password}
-            // setValue={setPassword}
             type="password"
             placeholder="Password"
             onChange={handleChange}
@@ -64,18 +78,6 @@ const Registration = () => {
             onBlur={handleBlur}
             onKeyUp={handleKeyUp}
           />
-          {/* <Input
-            id="password"
-            value={password}
-            setValue={setPassword}
-            type="password"
-            placeholder="Password"
-            autocomplete="off"
-            onChange={handleChange}
-            onFocus={handleFocus}
-            OnBlur={handleBlur}
-            onKeyUp={handleKeyUp}
-          /> */}
         </center>
         <center>
           <br />

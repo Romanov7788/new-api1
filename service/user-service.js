@@ -18,10 +18,10 @@ class UserService {
     const user = await UserModel.create({ email, password: hashPassword, roles: [userRole.value] });
     const tokens = tokenService.generateTokens({user});
     await tokenService.saveToken(user, tokens.refreshToken);
-
+    
     return { ...tokens, user };
   }
-
+  
   async login(email, password) {
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -32,16 +32,16 @@ class UserService {
       throw ApiError.BadRequest("неверный пароль");
     }
     const tokens = tokenService.generateTokens({ user, roles: user.roles });
-
+    
     await tokenService.saveToken(user, tokens.refreshToken);
     return { ...tokens, user };
   }
-
+  
   async logout(refreshToken) {
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }
-
+  
   async refresh(refreshToken) {
     if (!refreshToken) {
       throw ApiError.unauthorizedError();
@@ -57,9 +57,10 @@ class UserService {
     return { ...tokens, user };
   }
 
-  async getAllUser() {
-    const users = await UserModel.find({}, { password: 0 });
-    return users;
+
+  async getCurrentUser(token) {
+    const userData = tokenService.validateRefreshToken(token);
+    return userData;
   }
 }
 

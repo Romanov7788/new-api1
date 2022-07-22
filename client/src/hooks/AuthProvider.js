@@ -11,11 +11,6 @@ export const AuthProvider = ({ children }) => {
         setUser(user);
         cb();
     }
-    // const signout = (cb) => {
-    //     setUser(null);
-    //     cb();
-    // }
-
     const value = { user, signin, auth, setAuth };
 
     return (

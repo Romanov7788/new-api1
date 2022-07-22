@@ -14,9 +14,10 @@ router.post(
 );
 router.post("/login", userController.login);
 router.post("/logout", userController.logout);
+router.post("/refresh", userController.refresh);
 router.get("/users", roleMiddleware(["Admin"]), userController.getUsers);
 router.get("/users/:id", roleMiddleware(["Admin"]), userController.getUserOne);
-router.get("/user", authMiddleware, userController.getUsers);
+router.get("/user", authMiddleware, userController.getCurrentUser);
 router.post("/users/addfriends", authMiddleware, Friends.addFriends);
 router.post("/users/acceptFriends", authMiddleware, Friends.acceptFriends);
 router.post("/users/rejectedFriends", authMiddleware, Friends.rejectedFriends);

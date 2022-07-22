@@ -5,10 +5,10 @@ const config = require("../config");
 class tokenService {
   generateTokens(payload) {
     const accessToken = jwt.sign(payload, config.JWT_ACCESS_KEY, {
-      expiresIn: "15m",
+      expiresIn: "30m",
     });
     const refreshToken = jwt.sign(payload, config.JWT_REFRESH_KEY, {
-      expiresIn: "30m",
+      expiresIn: "30h",
     });
     return {
       accessToken,
