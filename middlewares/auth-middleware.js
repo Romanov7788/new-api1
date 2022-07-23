@@ -1,5 +1,7 @@
 const tokenService = require("../service/token-service");
 const ApiError = require('../exceptions/api-error');
+const config = require("../config");
+const jwt = require("jsonwebtoken");
 
 module.exports = function (req, res, next) {    
   try {
@@ -9,12 +11,12 @@ module.exports = function (req, res, next) {
       return next(ApiError.UnauthorizedError());
     }
     
-    const accessToken = authorizationHeader.split(' ')[1];
-    if (!accessToken) {
+    const token = authorizationHeader.split(' ')[1];
+    if (!token) {
       return next(ApiError.UnauthorizedError());
     }
   
-    const userData = tokenService.validateAccessToken(accessToken);
+    const userData = jwt.verify(token, config.JWT_ACCESS_KEY);
     if (!userData) {
       return next(ApiError.UnauthorizedError());
     }

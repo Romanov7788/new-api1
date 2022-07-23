@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const {signin} = useAuth();
-  const from = location.state?.from?.pathname || "/api/user";
+  const from = location.state?.from?.pathname || "/api/users";
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,7 +26,7 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem('token', response.data.accessToken)
+      localStorage.setItem('token', response.data.token)
       const user = response.data.user
       setUser(response.data)
       signin(user, () => navigate(from), {replace: true});

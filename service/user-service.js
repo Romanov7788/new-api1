@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const ApiError = require("../exceptions/api-error");
 const tokenService = require("./token-service");
 const Role = require("../models/Role");
+const config = require("../config");
+const jwt = require("jsonwebtoken");
 
 class UserService {
   async registration(email, password) {
@@ -14,14 +16,28 @@ class UserService {
     }
     const hashPassword = await bcrypt.hash(password, 3);
 
-    const userRole = await Role.findOne({value: "User"})
-    const user = await UserModel.create({ email, password: hashPassword, roles: [userRole.value] });
-    const tokens = tokenService.generateTokens({user});
-    await tokenService.saveToken(user, tokens.refreshToken);
-    
-    return { ...tokens, user };
+    const userRole = await Role.findOne({ value: "User" });
+    const user = await UserModel.create({
+      email,
+      password: hashPassword,
+      roles: [userRole.value],
+    });
+    const token = jwt.sign(
+      { id: user.id, roles: user.roles, email: user.email },
+      config.JWT_ACCESS_KEY,
+      { expiresIn: "30m" }
+    );
+
+    return {
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        roles: user.roles,
+      },
+    };
   }
-  
+
   async login(email, password) {
     const user = await UserModel.findOne({ email });
     if (!user) {
@@ -31,36 +47,31 @@ class UserService {
     if (!isPassEquals) {
       throw ApiError.BadRequest("неверный пароль");
     }
-    const tokens = tokenService.generateTokens({ user, roles: user.roles });
-    
-    await tokenService.saveToken(user, tokens.refreshToken);
-    return { ...tokens, user };
+    const token = jwt.sign(
+      { id: user.id, roles: user.roles, email: user.email },
+      config.JWT_ACCESS_KEY,
+      { expiresIn: "30m" }
+    );
+    return {
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        roles: user.roles,
+      },
+    };
   }
-  
+
   async logout(refreshToken) {
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }
-  
-  async refresh(refreshToken) {
-    if (!refreshToken) {
-      throw ApiError.unauthorizedError();
-    }
-    const userData = tokenService.validateRefreshToken(refreshToken);
-    const tokenFromDb = await tokenService.findToken(refreshToken);
-    if (!userData || !tokenFromDb) {
-      throw ApiError.unauthorizedError();
-    }
-    const user = await UserModel.findById(userData.id);
-    const tokens = tokenService.generateTokens({ user });
-    await tokenService.saveToken(user, tokens.refreshToken);
-    return { ...tokens, user };
-  }
-
 
   async getCurrentUser(token) {
-    const userData = tokenService.validateRefreshToken(token);
-    return userData;
+    const userData = jwt.verify(token, config.JWT_ACCESS_KEY);
+    const user = await UserModel.findOne(userData);
+    console.log("userData", user);
+    return user;
   }
 }
 

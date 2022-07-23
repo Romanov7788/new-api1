@@ -18,7 +18,7 @@ class UserController {
       }
       const { email, password } = req.body;
       const userData = await userService.registration(email, password);
-      res.cookie("refreshToken", userData.refreshToken, {
+      res.cookie("token", userData.token, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
@@ -32,7 +32,7 @@ class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.login(email, password);
-      res.cookie("refreshToken", userData.refreshToken, {
+      res.cookie("token", userData.token, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
@@ -41,7 +41,7 @@ class UserController {
       next(e);
     }
   }
-
+  
   async logout(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
@@ -52,22 +52,24 @@ class UserController {
       next(e);
     }
   }
-
+  
   async refresh(req, res, next) {
+    // console.log("userDataref", req, res, next);
     try {
-      const { refreshToken } = req.cookies;
-      const userData = await userService.refresh(refreshToken);
-      res.cookie("refreshToken", userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
-      });
-      return res.json(userData);
+      // const { refreshToken } = req.cookies;
+      // const userData = await userService.refresh(refreshToken);
+      // res.cookie("refreshToken", userData.refreshToken, {
+      //   maxAge: 30 * 24 * 60 * 60 * 1000,
+      //   httpOnly: true,
+      // });
+      // return res.json(userData);
     } catch (e) {
       next(e);
     }
   }
 
   async getUsers(req, res, next) {
+    // console.log('getUsers', req);
     try {
       const users = await UserModel.find();
       res.json(users);
@@ -88,9 +90,10 @@ class UserController {
 
   async getCurrentUser(req, res, next) {
     try {
-      const { refreshToken } = req.cookies;
-      const userData = await userService.getCurrentUser(refreshToken);
-      return res.json(userData);
+      const { token } = req.cookies;
+      console.log("req", token);
+      const user = await userService.getCurrentUser(token);
+      return res.json(user);
     } catch (e) {
       next(e);
     }

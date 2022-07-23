@@ -17,8 +17,7 @@ module.exports = function(roles) {
       if (!token) {
         return next(ApiError.UnauthorizedError());
       }
-
-      const {roles: userRoles} = tokenService.validateAccessToken(token);      
+      const {roles: userRoles} = jwt.verify(token, config.JWT_ACCESS_KEY);     
       let hasRole = false
       userRoles.forEach(role => {
         if (roles.includes(role)) {
