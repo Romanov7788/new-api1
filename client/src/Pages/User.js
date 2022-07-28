@@ -1,22 +1,9 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import api from "../components/api/index";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const User = () => {
   const [users, setUsers] = useState();
-  const navigate = useNavigate();
-
-  async function logout() {
-    try {
-      const response = await axios.post("/api/logout");
-      localStorage.removeItem("token", response.data.token);
-      setUsers(null);
-      navigate("/", { replace: true });
-    } catch (e) {
-      alert(e.response.data.message);
-    }
-  }
 
   async function User() {
     try {
@@ -39,10 +26,6 @@ const User = () => {
           <li>{user.email}</li>
         </Link>
       ))}
-      <br />
-      <br />
-      <br />
-      <button onClick={() => logout()}>log out</button>
     </>
   ) : (
     <p>

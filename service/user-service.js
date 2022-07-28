@@ -15,7 +15,7 @@ class UserService {
       );
     }
     const hashPassword = await bcrypt.hash(password, 3);
-
+    
     const userRole = await Role.findOne({ value: "User" });
     const user = await UserModel.create({
       email,
@@ -67,7 +67,7 @@ class UserService {
     return token;
   }
 
-  async getCurrentUser(token) {
+  async getMe(token) {
     const userData = jwt.verify(token, config.JWT_ACCESS_KEY);
     const user = await UserModel.findOne(userData);
     console.log("userData", user);

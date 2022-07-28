@@ -1,17 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../App.css";
 import Input from "../input";
 import api from "../components/api/index";
 import { useAuth } from "../hooks/useAuth";
+import { AuthContext } from "../hooks/AuthProvider"
 
 
 
 
 const Login = () => {
 
-  const [user, setUser] = useState();
-  console.log('user', user);
   const navigate = useNavigate();
   const location = useLocation();
   const {signin} = useAuth();
@@ -19,6 +18,7 @@ const Login = () => {
   
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {dispatch} = useContext(AuthContext)  
 
   const login = async (email, password) => {
     try {
@@ -26,11 +26,9 @@ const Login = () => {
         email,
         password,
       });
-      localStorage.setItem('token', response.data.token)
-      const user = response.data.user
-      setUser(response.data)
+      dispatch({type:"Login_Success", payload: response.data});
+      const user = response.data.email
       signin(user, () => navigate(from), {replace: true});
-      console.log('login', response.data.user);
       return user;
     } catch (e) {
       alert(e.response.data.message);

@@ -1,5 +1,5 @@
 const userService = require("../service/user-service");
-const { validationResult } = require("express-validator");
+const { check, validationResult } = require("express-validator");
 const ApiError = require("../exceptions/api-error");
 const UserModel = require("../models/user-model");
 const Role = require("../models/Role");
@@ -7,6 +7,10 @@ const Role = require("../models/Role");
 class UserController {
   async registration(req, res, next) {
     try {
+      [
+      check ("email").isEmail(),
+      check("password").matches(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]){8,}/),
+    ]
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return next(
@@ -22,7 +26,7 @@ class UserController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,
       });
-      return res.json(userData);
+      return res.json(userData.user);
     } catch (e) {
       next(e);
     }
@@ -34,9 +38,9 @@ class UserController {
       const userData = await userService.login(email, password);
       res.cookie("token", userData.token, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: false,
       });
-      return res.json(userData);
+      return res.json(userData.user);
     } catch (e) {
       next(e);
     }
@@ -88,11 +92,11 @@ class UserController {
     }
   }
 
-  async getCurrentUser(req, res, next) {
+  async getMe(req, res, next) {
     try {
       const { token } = req.cookies;
       console.log("req", token);
-      const user = await userService.getCurrentUser(token);
+      const user = await userService.getMe(token);
       return res.json(user);
     } catch (e) {
       next(e);
